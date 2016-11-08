@@ -1,10 +1,19 @@
 // Really Difficult Game by Trevor Taka
 
 #include <MeggyJrSimple.h>    // Required code, line 1 of 2.
-int ph = 1; //platform height
-int platform_left = 6; //left side of platform
-int platform_right = 7; //right side of platform
-
+int random_platform = 0;
+int speed = 200;
+struct Platform
+{
+  int x;
+  int y;
+}
+Point platform_left_one = {6,0}
+Point platform_right_one = {7,0}
+Point platform_left_two = {6,1}
+Point platform_right_two = {7,1}
+Point platform_left_three = {6,2}
+Point platform_right_three = {7,2}
 void setup() 
 {
   MeggyJrSimpleSetup();      // Required code, line 2 of 2.
@@ -13,8 +22,7 @@ void setup()
 void loop()                     // run over and over again
 {
   drawPlatform();
-  drawPlatfor();
-  delay(300);
+  delay(speed);
   updatePlatform();
   DisplaySlate();
   delay(100);
@@ -26,35 +34,30 @@ void drawPlatform()
 {
   DrawPx(platform_left,ph,Blue);
   DrawPx(platform_right,ph,Blue);
+  delay(speed * 2);
+  random_platform = random(3);
+  if (random_platform == 0)
+  {
+    platform_left = 6;
+    platform_right = 7;
+    DrawPx(platform_left,ph - 1,Blue);
+    DrawPx(platform_right,ph - 1,Blue);
+  }
+  if (random_platform == 1)
+  {
+    platform_left_two = 6;
+    platform_right_two = 7;
+    DrawPx(platform_left_two,ph,Blue);
+    DrawPx(platform_right_two,ph,Blue);
+  }
+  if (random_platform == 2)
+  {
+    DrawPx(platform_left_three,ph + 1,Blue);
+    DrawPx(platform_right_three,ph + 1,Blue);
+  }
 }
 
-void drawPlatfor()
+void updatePlatform() //scrolls platforms from right to left
 {
-  DrawPx(platform_left,ph + 1,Blue);
-  DrawPx(platform_right,ph + 1,Blue);
-}
-
-void drawPlatfo()
-{
-  DrawPx(platform_left,ph + 2,Blue);
-  DrawPx(platform_right,ph + 2,Blue);
-}
-
-void drawPlatf()
-{
-  DrawPx(platform_left,ph + 3,Blue);
-  DrawPx(platform_right,ph + 3,Blue);
-}
-
-void drawPlat()
-{
-  DrawPx(platform_left,ph + 4,Blue);
-  DrawPx(platform_right,ph + 4,Blue);
-}
-
-void updatePlatform()
-{
-  platform_left = platform_left - 1;
-  platform_right = platform_right - 1;
 }
 
