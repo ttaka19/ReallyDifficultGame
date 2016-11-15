@@ -86,4 +86,32 @@ if (platforml3.x > 0)
   }
   DisplaySlate();
 }
+void drawJumper() //draws jumper
+{
+  DrawPx(jumper.x,jumper.y,Red);
+}
+
+void updateJumper() //jumper jumps
+{
+  CheckButtonsPress();
+    if (Button_A)
+    {
+      jumper.y = jumper.y + 1;
+      delay(50);
+      DrawPx(jumper.x,jumper.y - 1,0);
+      DisplaySlate();
+      jumper.y = jumper.y + 1;
+      delay(50);
+      DrawPx(jumper.x,jumper.y - 1,0);
+      DisplaySlate();
+      jumper.y = jumper.y + 1;
+      delay(50);
+      DrawPx(jumper.x,jumper.y - 1,0);
+      DisplaySlate();
+      jumper.y = jumper.y - 1;
+      delay(50);
+      DrawPx(jumper.x,jumper.y - 1,0);
+      DisplaySlate();
+    }
+}
 
