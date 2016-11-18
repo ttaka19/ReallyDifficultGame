@@ -2,33 +2,33 @@
 
 #include <MeggyJrSimple.h>    // Required code, line 1 of 2.
 
-struct Point
+struct Point //Declar structure
 {
   int x;
   int y;
 };
-Point p1 = {7,random(3) + 1};
-Point p2 = {10,random(3) + 1};
-Point p3 = {13,random(3) + 1};
-Point platforms[3] = {p1,p2,p3};
-Point jumper = {2,8};
-int speed = 500;
+Point p1 = {7,random(3) + 1}; //starting coordinates of platform
+Point p2 = {10,random(3) + 1}; //starting coordinates of platform 2
+Point p3 = {13,random(3) + 1}; //starting coodinates of platform 3
+Point platforms[3] = {p1,p2,p3}; //array of platforms
+Point jumper = {2,8}; //starting coordinates of jumper
+int speed = 500; //speed of platforms
 boolean gameOver = false; //game not over
 
-void setup() 
+void setup() //run once, when the sketch starts
 {
   MeggyJrSimpleSetup();      // Required code, line 2 of 2.
-  randomSeed(millis);
+  randomSeed(millis); //starts random at random point
   Serial.begin(9600);
 }
 
 void loop()                     // run over and over again
 {
-  if (gameOver == false)
+  if (gameOver == false) //when game is still going on
   {
     Serial.print("function called");
-    drawJumper();
-    drawPlatform();
+    drawJumper(); 
+    drawPlatform(); 
     drawLava();
     updateJumper();
     checkDeath();
@@ -44,20 +44,20 @@ void loop()                     // run over and over again
 void drawLava() //Draws bottom level that kills you
 {
   for (int b = 0; b < 8; b++)
-  DrawPx(b,0,Red);
+  DrawPx(b,0,Red); // Draws entire bottom row red for lava
 }
 
 void drawPlatform() //draws the original platforms
 {
   for (int i = 0; i < 3; i++)
   {
-    if (platforms[i].x < 8)
+    if (platforms[i].x < 8) //if left side of platform's x coord is less than 8
     {
-      DrawPx(platforms[i].x,platforms[i].y,Blue);
+      DrawPx(platforms[i].x,platforms[i].y,Blue); //Draw left side of platforms
     }
-    if (platforms[i].x + 1 < 8)
+    if (platforms[i].x + 1 < 8) //if right side of platform's x coord is less than 8
     {
-      DrawPx(platforms[i].x + 1,platforms[i].y,Blue);
+      DrawPx(platforms[i].x + 1,platforms[i].y,Blue); //Draw right side of platforms
     }
   }
 }
@@ -65,21 +65,21 @@ void updatePlatform() //scrolls platforms from right to left
 {
   for (int i = 0; i < 3; i++)
   {
-    if (platforms[i].x > 0)
+    if (platforms[i].x > 0) //if platform's x coord is greater than 0
     {
-      platforms[i].x--;
+      platforms[i].x--; //subtract one from platform x (move left 1)
     }
-    else
+    else //if platform x is 0
     {
-      platforms[i].x = 8;
-      platforms[i].y = random(3) + 1;
+      platforms[i].x = 8; //reset x back to 8
+      platforms[i].y = random(3) + 1; //reset to random height between 1 and 3
     }
   }
 }
 
 void drawJumper() //draws jumper
 {
-  if (jumper.y < 8)
+  if (jumper.y < 8) //if on the screen (<8)
   {
     DrawPx(jumper.x,jumper.y,Orange);
   }
@@ -88,11 +88,11 @@ void drawJumper() //draws jumper
 void updateJumper() //jumper jumps
 {
   CheckButtonsPress();
-    if (Button_A)
+    if (Button_A) //when Button A is pressed
     {
-      if (ReadPx(jumper.x,jumper.y - 1) == 5)
+      if (ReadPx(jumper.x,jumper.y - 1) == 5) //when jumper is on top of platform
       {
-        jumper.y = jumper.y + 1;
+        jumper.y = jumper.y + 1; //jumps up 3
         delay(300);
         jumper.y = jumper.y + 1;
         delay(300);
@@ -102,16 +102,16 @@ void updateJumper() //jumper jumps
     }
     if (ReadPx(jumper.x,jumper.y - 1) == 0)
   {
-    jumper.y--;
+    jumper.y--; //subtract one from jumper y (move down 1)
   }
 }
 
 void checkDeath () //checks to see if in lava
 {
-  if ((ReadPx(jumper.x,jumper.y - 1) == 1) || (ReadPx(jumper.x,jumper.y) == 5))
+  if ((ReadPx(jumper.x,jumper.y - 1) == 1) || (ReadPx(jumper.x,jumper.y) == 5)) //if under jumper is lava or hit by platform from side
   {
     ClearSlate();
-    gameOver = true;
+    gameOver = true; //set gameOver boolean to true
   }
 }
 
