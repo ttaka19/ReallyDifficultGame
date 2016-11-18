@@ -8,10 +8,10 @@ struct Point
   int y;
 };
 Point p1 = {7,random(3) + 1};
-Point p2 = {11,random(3) + 1};
-Point p3 = {14,random(3) + 1};
+Point p2 = {10,random(3) + 1};
+Point p3 = {13,random(3) + 1};
 Point platforms[3] = {p1,p2,p3};
-Point jumper = {2,7};
+Point jumper = {2,8};
 int speed = 500;
 boolean gameOver = false; //game not over
 
@@ -71,13 +71,9 @@ void updatePlatform() //scrolls platforms from right to left
     }
     else
     {
-      platforms[i].x = 9;
+      platforms[i].x = 8;
       platforms[i].y = random(3) + 1;
     }
-  }
-  if (ReadPx(jumper.x,jumper.y - 1) == 0)
-  {
-    jumper.y--;
   }
 }
 
@@ -94,16 +90,23 @@ void updateJumper() //jumper jumps
   CheckButtonsPress();
     if (Button_A)
     {
-      jumper.y = jumper.y + 2;
-      delay(300);
-      jumper.y = jumper.y + 2;
-      delay(300);
+      if (ReadPx(jumper.x,jumper.y - 1) == 5)
+      {
+        jumper.y = jumper.y + 1;
+        delay(300);
+        jumper.y = jumper.y + 1;
+        delay(300);
+      }
     }
+    if (ReadPx(jumper.x,jumper.y - 1) == 0)
+  {
+    jumper.y--;
+  }
 }
 
 void checkDeath () //checks to see if in lava
 {
-  if (ReadPx(jumper.x,jumper.y) == 1)
+  if ((ReadPx(jumper.x,jumper.y - 1) == 1) || (ReadPx(jumper.x,jumper.y) == 5))
   {
     ClearSlate();
     gameOver = true;
