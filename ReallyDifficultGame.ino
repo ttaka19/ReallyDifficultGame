@@ -7,13 +7,12 @@ struct Point
   int x;
   int y;
 };
-Point p1 = {7,random(3)};
-Point p2 = {10,random(3)};
-Point p3 = {13,random(3)};
+Point p1 = {7,random(3) + 1};
+Point p2 = {11,random(3) + 1};
+Point p3 = {14,random(3) + 1};
 Point platforms[3] = {p1,p2,p3};
-Point jumper = {0,0};
+Point jumper = {2,0};
 int speed = 300;
-int platformspeed = 500;
 
 void setup() 
 {
@@ -25,12 +24,21 @@ void setup()
 void loop()                     // run over and over again
 {
   Serial.print("function called");
+  drawJumper();
   drawPlatform();
+  drawLava();
+  updateJumper();
   DisplaySlate();
   delay(speed);
   ClearSlate();
   updatePlatform();
   DisplaySlate();
+}
+
+void drawLava() //Draws bottom level that kills you
+{
+  for (int b = 0; b < 8; b++)
+  DrawPx(b,0,Red);
 }
 
 void drawPlatform() //draws the original platforms
@@ -58,8 +66,12 @@ void updatePlatform() //scrolls platforms from right to left
     else
     {
       platforms[i].x = 8;
-      platforms[i].y = random(3);
+      platforms[i].y = random(3) + 1;
     }
+  }
+  if (ReadPx(jumper.x,jumper.y - 1) == 0)
+  {
+    jumper.y--;
   }
 }
 
@@ -74,21 +86,16 @@ void updateJumper() //jumper jumps
     if (Button_A)
     {
       jumper.y = jumper.y + 1;
-      delay(50);
-      DrawPx(jumper.x,jumper.y - 1,0);
-      DisplaySlate();
+      delay(100);
       jumper.y = jumper.y + 1;
-      delay(50);
-      DrawPx(jumper.x,jumper.y - 1,0);
-      DisplaySlate();
+      delay(100);
       jumper.y = jumper.y + 1;
-      delay(50);
-      DrawPx(jumper.x,jumper.y - 1,0);
-      DisplaySlate();
-      jumper.y = jumper.y - 1;
-      delay(50);
-      DrawPx(jumper.x,jumper.y - 1,0);
-      DisplaySlate();
+      delay(100);
+      if ((ReadPx(jumper.x,jumper.y - 1) == 0) && (jumper.y > 0))
+      {
+        jumper.y--;
+        delay(100);
+      }
     }
 }
 
