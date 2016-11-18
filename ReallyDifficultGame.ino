@@ -96,6 +96,8 @@ void updateJumper() //jumper jumps
         delay(300);
         jumper.y = jumper.y + 1;
         delay(300);
+        jumper.y = jumper.y + 1;
+        delay(300);
       }
     }
     if (ReadPx(jumper.x,jumper.y - 1) == 0)
