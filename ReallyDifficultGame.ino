@@ -7,14 +7,12 @@ struct Point
   int x;
   int y;
 };
-Point platforml1 = {6,random(3)};
-Point platformr1 = {7,platforml1.y};
-Point platforml2 = {6,random(3)};
-Point platformr2 = {7,platforml2.y};
-Point platforml3 = {6,random(3)};
-Point platformr3 = {7,platforml3.y};
+Point p1 = {7,random(3)};
+Point p2 = {10,random(3)};
+Point p3 = {13,random(3)};
+Point platforms[3] = {p1,p2,p3};
 Point jumper = {0,0};
-int speed = 100;
+int speed = 300;
 int platformspeed = 500;
 
 void setup() 
@@ -28,64 +26,43 @@ void loop()                     // run over and over again
 {
   Serial.print("function called");
   drawPlatform();
+  DisplaySlate();
+  delay(speed);
+  ClearSlate();
   updatePlatform();
+  DisplaySlate();
 }
 
-void drawPlatform()
+void drawPlatform() //draws the original platforms
 {
-  DrawPx(platforml1.x,platforml1.y,Blue);
-  DrawPx(platformr1.x,platformr1.y,Blue);
-  delay(platformspeed);
-  DrawPx(platforml2.x,platforml2.y,Blue);
-  DrawPx(platformr2.x,platformr2.y,Blue);
-  delay(platformspeed);
-  DrawPx(platforml3.x,platforml3.y,Blue);
-  DrawPx(platformr3.x,platformr3.y,Blue);
-  delay(platformspeed);
+  for (int i = 0; i < 3; i++)
+  {
+    if (platforms[i].x < 8)
+    {
+      DrawPx(platforms[i].x,platforms[i].y,Blue);
+    }
+    if (platforms[i].x + 1 < 8)
+    {
+      DrawPx(platforms[i].x + 1,platforms[i].y,Blue);
+    }
+  }
 }
-
 void updatePlatform() //scrolls platforms from right to left
 {
-  if (platforml1.x > 0)
+  for (int i = 0; i < 3; i++)
   {
-    platforml1.x--;
-    platformr1.x--;
+    if (platforms[i].x > 0)
+    {
+      platforms[i].x--;
+    }
+    else
+    {
+      platforms[i].x = 8;
+      platforms[i].y = random(3);
+    }
   }
-  else
-  {
-    platforml1.x = 6;
-    platformr1.x = 7;
-    platforml1.y = random(3);
-    platformr1.y = platforml1.y;
-  }
-  DisplaySlate();
-  if (platforml2.x > 0)
-  {
-    platforml2.x--;
-    platformr2.x--;
-  }
-  else
-  {
-    platforml2.x = 6;
-    platformr2.x = 7;
-    platforml2.y = random(3);
-    platformr2.y = platforml2.y;
-  }
-  DisplaySlate();
-if (platforml3.x > 0)
-  {
-    platforml3.x--;
-    platformr3.x--;
-  }
-  else
-  {
-    platforml3.x = 6;
-    platformr3.x = 7;
-    platforml3.y = random(3);
-    platformr3.y = platforml3.y;
-  }
-  DisplaySlate();
 }
+
 void drawJumper() //draws jumper
 {
   DrawPx(jumper.x,jumper.y,Red);
