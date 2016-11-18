@@ -11,8 +11,9 @@ Point p1 = {7,random(3) + 1};
 Point p2 = {11,random(3) + 1};
 Point p3 = {14,random(3) + 1};
 Point platforms[3] = {p1,p2,p3};
-Point jumper = {2,0};
-int speed = 300;
+Point jumper = {2,7};
+int speed = 500;
+boolean gameOver = false; //game not over
 
 void setup() 
 {
@@ -23,16 +24,21 @@ void setup()
 
 void loop()                     // run over and over again
 {
-  Serial.print("function called");
-  drawJumper();
-  drawPlatform();
-  drawLava();
-  updateJumper();
-  DisplaySlate();
-  delay(speed);
-  ClearSlate();
-  updatePlatform();
-  DisplaySlate();
+  if (gameOver == false)
+  {
+    Serial.print("function called");
+    drawJumper();
+    drawPlatform();
+    drawLava();
+    updateJumper();
+    checkDeath();
+    DisplaySlate();
+    delay(speed);
+    ClearSlate();
+    updatePlatform();
+    DisplaySlate();
+  }
+  else death(); //if game over do "death"
 }
 
 void drawLava() //Draws bottom level that kills you
@@ -65,7 +71,7 @@ void updatePlatform() //scrolls platforms from right to left
     }
     else
     {
-      platforms[i].x = 8;
+      platforms[i].x = 9;
       platforms[i].y = random(3) + 1;
     }
   }
@@ -77,7 +83,10 @@ void updatePlatform() //scrolls platforms from right to left
 
 void drawJumper() //draws jumper
 {
-  DrawPx(jumper.x,jumper.y,Red);
+  if (jumper.y < 8)
+  {
+    DrawPx(jumper.x,jumper.y,Orange);
+  }
 }
 
 void updateJumper() //jumper jumps
@@ -85,17 +94,41 @@ void updateJumper() //jumper jumps
   CheckButtonsPress();
     if (Button_A)
     {
-      jumper.y = jumper.y + 1;
-      delay(100);
-      jumper.y = jumper.y + 1;
-      delay(100);
-      jumper.y = jumper.y + 1;
-      delay(100);
-      if ((ReadPx(jumper.x,jumper.y - 1) == 0) && (jumper.y > 0))
-      {
-        jumper.y--;
-        delay(100);
-      }
+      jumper.y = jumper.y + 2;
+      delay(300);
+      jumper.y = jumper.y + 2;
+      delay(300);
     }
 }
+
+void checkDeath () //checks to see if in lava
+{
+  if (ReadPx(jumper.x,jumper.y) == 1)
+  {
+    ClearSlate();
+    gameOver = true;
+  }
+}
+
+void death() //if dead
+{
+  DrawPx(0,0,Red); //draw red x
+  DrawPx(1,1,Red);
+  DrawPx(2,2,Red);
+  DrawPx(3,3,Red);
+  DrawPx(4,4,Red);
+  DrawPx(5,5,Red);
+  DrawPx(6,6,Red);
+  DrawPx(7,7,Red);
+  DrawPx(0,7,Red);
+  DrawPx(1,6,Red);
+  DrawPx(2,5,Red);
+  DrawPx(3,4,Red);
+  DrawPx(4,3,Red);
+  DrawPx(5,2,Red);
+  DrawPx(6,1,Red);
+  DrawPx(7,0,Red);
+  DisplaySlate();
+}
+
 
