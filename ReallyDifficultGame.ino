@@ -92,12 +92,7 @@ void updateJumper() //jumper jumps
     {
       if (ReadPx(jumper.x,jumper.y - 1) == 5) //when jumper is on top of platform
       {
-        jumper.y = jumper.y + 1; //jumps up 3
-        delay(300);
-        jumper.y = jumper.y + 1;
-        delay(300);
-        jumper.y = jumper.y + 1;
-        delay(300);
+        jumper.y = jumper.y + 3; //jumps up 3
       }
     }
     if (ReadPx(jumper.x,jumper.y - 1) == 0)
