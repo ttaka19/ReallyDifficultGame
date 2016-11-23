@@ -13,7 +13,8 @@ Point p3 = {13,random(3) + 1}; //starting coodinates of platform 3
 Point platforms[3] = {p1,p2,p3}; //array of platforms
 Point jumper = {2,8}; //starting coordinates of jumper
 int speed = 500; //speed of platforms
-boolean gameOver = false; //game not over
+int gameOver = 0; //0 = game not started, 1 = game in progress, 2 = game over
+int seed;
 
 void setup() //run once, when the sketch starts
 {
@@ -24,7 +25,11 @@ void setup() //run once, when the sketch starts
 
 void loop()                     // run over and over again
 {
-  if (gameOver == false) //when game is still going on
+  if (gameOver == 0) //if game not started
+  {
+    start();
+  }
+  if (gameOver == 1) //when game is still going on
   {
     Serial.print("function called");
     drawJumper(); 
@@ -38,7 +43,10 @@ void loop()                     // run over and over again
     updatePlatform();
     DisplaySlate();
   }
-  else death(); //if game over do "death"
+  if (gameOver == 2); //if game over do "death"
+  {
+    death();
+  }
 }
 
 void drawLava() //Draws bottom level that kills you
@@ -102,17 +110,23 @@ void updateJumper() //jumper jumps
   }
 }
 
-void checkDeath () //checks to see if in lava
+void checkDeath() //checks to see if in lava
 {
   if ((ReadPx(jumper.x,jumper.y - 1) == 1) || (ReadPx(jumper.x,jumper.y) == 5)) //if under jumper is lava or hit by platform from side
   {
     ClearSlate();
-    gameOver = true; //set gameOver boolean to true
+    gameOver = 2; //set gameOver boolean to true
   }
 }
 
 void death() //if dead
 {
+  Tone_Start(8000,300);
+  delay(500);
+  Tone_Start(9000,300);
+  delay(500);
+  Tone_Start(10000,300);
+  delay(500);
   DrawPx(0,0,Red); //draw red x
   DrawPx(1,1,Red);
   DrawPx(2,2,Red);
@@ -132,4 +146,38 @@ void death() //if dead
   DisplaySlate();
 }
 
-
+void start() //at start
+{
+DrawPx(0,2,Violet);
+DrawPx(0,3,Violet);
+DrawPx(0,4,Violet);
+DrawPx(1,2,Violet);
+DrawPx(2,2,Violet);
+DrawPx(1,4,Violet);
+DrawPx(2,4,Violet);
+DrawPx(2,3,Violet);
+DrawPx(0,2,Violet);
+DrawPx(2,5,Violet);
+DrawPx(2,6,Violet);
+DrawPx(4,2,Violet);
+DrawPx(4,3,Violet);
+DrawPx(4,4,Violet);
+DrawPx(4,6,Violet);
+DrawPx(5,4,Violet);
+DrawPx(6,4,Violet);
+DrawPx(7,4,Violet);
+DrawPx(6,3,Violet);
+DrawPx(6,2,Violet);
+DrawPx(6,4,Violet);
+DrawPx(6,5,Violet);
+DrawPx(6,6,Violet);
+DrawPx(7,6,Violet);
+DisplaySlate();
+CheckButtonsPress();
+if (Button_B)
+{
+  seed = millis();
+  gameOver = 1;
+  ClearSlate();
+}
+}
