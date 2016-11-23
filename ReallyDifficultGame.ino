@@ -113,6 +113,12 @@ void checkDeath () //checks to see if in lava
 
 void death() //if dead
 {
+  Tone_Start(8000,300);
+  delay(300);
+  Tone_Start(10000,300);
+  delay(300);
+  Tone_Start(12000,300);
+  delay(300);
   DrawPx(0,0,Red); //draw red x
   DrawPx(1,1,Red);
   DrawPx(2,2,Red);
