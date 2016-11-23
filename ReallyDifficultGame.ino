@@ -100,6 +100,7 @@ void updateJumper() //jumper jumps
     {
       if (ReadPx(jumper.x,jumper.y - 1) == 5) //when jumper is on top of platform
       {
+        Tone_Start(8000,300); //plays jumping tone
         jumper.y = jumper.y + 3; //jumps up 3
       }
     }
