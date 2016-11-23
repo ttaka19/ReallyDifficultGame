@@ -12,7 +12,7 @@ Point p2 = {10,random(3) + 1}; //starting coordinates of platform 2
 Point p3 = {13,random(3) + 1}; //starting coodinates of platform 3
 Point platforms[3] = {p1,p2,p3}; //array of platforms
 Point jumper = {2,8}; //starting coordinates of jumper
-int speed = 500; //speed of platforms
+int speed = 300; //speed of platforms
 boolean gameOver = false; //game not over
 
 void setup() //run once, when the sketch starts
